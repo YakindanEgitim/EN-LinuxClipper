@@ -1,16 +1,13 @@
 CC = g++
 SRC_DIR = src
-FILES = testapp.cpp
-OUTPUT = testapp
+OUTPUT = main
 OUTPUT_DIR = build
 LIBS = gtkmm-3.0
 
-build:
+all:
+	rm -rf $(OUTPUT_DIR)
 	mkdir $(OUTPUT_DIR)
-	$(CC) -Wall $(SRC_DIR)/$(FILES) -o $(OUTPUT_DIR)/$(OUTPUT) `pkg-config $(LIBS) --cflags --libs`
-
-run:
+	$(CC) -Wall -I $(SRC_DIR) $(SRC_DIR)/*.cpp -o $(OUTPUT_DIR)/$(OUTPUT) `pkg-config $(LIBS) --cflags --libs`
 	$(OUTPUT_DIR)/$(OUTPUT)
 
-clean:
-	rm -rf $(OUTPUT_DIR)
+	
