@@ -16,6 +16,8 @@ class ENAPI:
 
     user_store = client.get_user_store()
 
+    user = user_store.getUser(auth_token)
+
     version_ok = user_store.checkVersion(
         "Evernote EDAMTest (Python)",
         UserStoreConstants.EDAM_VERSION_MAJOR,
@@ -64,7 +66,7 @@ class ENAPI:
         note.content += '</en-note>'
 
         created_note = ENAPI.note_store.createNote(note)
-
+        print ENAPI.get_note_link(created_note.guid)
         Notify.init('En-LinuxClipper')
         notification = Notify.Notification.new(
                 _('Upload Finished'),
@@ -73,3 +75,8 @@ class ENAPI:
             )
         notification.show()
         subprocess.call(['/usr/bin/canberra-gtk-play','--id','dialog-information'])
+
+    @staticmethod
+    def get_note_link(guid):
+        shareKey = ENAPI.note_store.shareNote(ENAPI.auth_token, guid)
+        return "https://sandbox.evernote.com/shard/%s/sh/%s/%s" % (ENAPI.user.shardId, guid, shareKey)
