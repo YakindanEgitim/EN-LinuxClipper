@@ -2,6 +2,7 @@ from gi.repository import Notify
 import hashlib
 import binascii
 import datetime
+import subprocess
 import evernote.edam.userstore.constants as UserStoreConstants
 import evernote.edam.type.ttypes as Types
 from evernote.api.client import EvernoteClient
@@ -67,7 +68,8 @@ class ENAPI:
         Notify.init('En-LinuxClipper')
         notification = Notify.Notification.new(
                 _('Upload Finished'),
-                note.title + _(' saved, and link copied to clipboard.'),
+                note.title + _(' was saved, and link copied to clipboard.'),
                 _('dialog-information')
             )
         notification.show()
+        subprocess.call(['/usr/bin/canberra-gtk-play','--id','dialog-information'])
