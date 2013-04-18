@@ -66,8 +66,8 @@ class ENAPI:
 
         Notify.init('En-LinuxClipper')
         notification = Notify.Notification.new(
-                'New note created',
-                'Your screenshot uploaded, and share link copied to clipboard.',
-                'dialog-information'
+                _('Upload Finished'),
+                note.title + _(' saved, and link copied to clipboard.'),
+                _('dialog-information')
             )
         notification.show()
