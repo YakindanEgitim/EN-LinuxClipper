@@ -2,6 +2,7 @@ import cairo
 from gi.repository import Gtk, Gdk
 from enapi import ENAPI
 import subprocess
+import StringIO
 
 class Clipper:
     def __init__(self):
@@ -18,5 +19,7 @@ class Clipper:
         cairo_context = cairo.Context(thumb_surface)
         Gdk.cairo_set_source_window(cairo_context, root_win, 0, 0)
         cairo_context.paint()
-        thumb_surface.write_to_png("/tmp/testshot.png")
-        ENAPI.upload_image("/tmp/testshot.png")
+
+        dummy_file = StringIO.StringIO()
+        thumb_surface.write_to_png(dummy_file)
+        ENAPI.upload_image(dummy_file.getvalue())

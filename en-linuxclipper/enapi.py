@@ -1,10 +1,12 @@
+from gi.repository import Notify
 import hashlib
 import binascii
+import datetime
 import evernote.edam.userstore.constants as UserStoreConstants
 import evernote.edam.type.ttypes as Types
-from gi.repository import Notify
-
 from evernote.api.client import EvernoteClient
+
+from i18n import _
 
 class ENAPI:
     auth_token = "S=s1:U=65f0d:E=1457156ba3d:C=13e19a58e41:P=1cd:A=en-devtoken:V=2:H=9fb797af6aa22988ce4c3bf385bd2baf"
@@ -28,44 +30,39 @@ class ENAPI:
         return note_store.listNotebooks()
 
     @staticmethod
-    def upload_image(image_src):
+    def upload_image(image):
         note = Types.Note()
-        note.title = "test screenshot"
-        image = open(image_src, 'rb').read()
+
+        now = datetime.datetime.now()
+        note.title = _("Screenshot ") + now.strftime("%Y-%m-%d %H:%M")
+
+        # prepare raw image data for upload
         md5 = hashlib.md5()
         md5.update(image)
         hash = md5.digest()
-
         data = Types.Data()
         data.size = len(image)
         data.bodyHash = hash
         data.body = image
 
+        # set mime type of image
         resource = Types.Resource()
         resource.mime = 'image/png'
         resource.data = data
 
-        # Now, add the new Resource to the note's list of resources
+        # add image data to resource list of note
         note.resources = [resource]
-
-        # To display the Resource as part of the note's content, include an <en-media>
-        # tag in the note's ENML content. The en-media tag identifies the corresponding
-        # Resource using the MD5 hash.
         hash_hex = binascii.hexlify(hash)
 
-        # The content of an Evernote note is represented using Evernote Markup Language
-        # (ENML). The full ENML specification can be found in the Evernote API Overview
-        # at http://dev.evernote.com/documentation/cloud/chapters/ENML.php
+        # generate note context
         note.content = '<?xml version="1.0" encoding="UTF-8"?>'
-        note.content += '<!DOCTYPE en-note SYSTEM ' \
-            '"http://xml.evernote.com/pub/enml2.dtd">'
-        note.content += '<en-note>test screenshot<br/>'
+        note.content += '<!DOCTYPE en-note SYSTEM '
+        note.content += '"http://xml.evernote.com/pub/enml2.dtd">'
+        note.content += '<en-note>'
         note.content += '<en-media type="image/png" hash="' + hash_hex + '"/>'
         note.content += '</en-note>'
 
         created_note = ENAPI.note_store.createNote(note)
-
-        print dir(created_note)
 
         Notify.init('En-LinuxClipper')
         notification = Notify.Notification.new(
