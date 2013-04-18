@@ -1,13 +1,17 @@
-from gi.repository import Notify
+from gi.repository import Notify, Gtk, Gdk
+
 import hashlib
 import binascii
 import datetime
 import subprocess
+
 import evernote.edam.userstore.constants as UserStoreConstants
 import evernote.edam.type.ttypes as Types
 from evernote.api.client import EvernoteClient
 
 from i18n import _
+
+
 
 class ENAPI:
     auth_token = "S=s1:U=65f0d:E=1457156ba3d:C=13e19a58e41:P=1cd:A=en-devtoken:V=2:H=9fb797af6aa22988ce4c3bf385bd2baf"
@@ -65,8 +69,13 @@ class ENAPI:
         note.content += '<en-media type="image/png" hash="' + hash_hex + '"/>'
         note.content += '</en-note>'
 
+        # do upload
         created_note = ENAPI.note_store.createNote(note)
-        print ENAPI.get_note_link(created_note.guid)
+
+        # share note and copy link to clipboard
+        ENAPI.copy_link_to_clipboard(created_note.guid)
+
+        # show notification
         Notify.init('En-LinuxClipper')
         notification = Notify.Notification.new(
                 _('Upload Finished'),
@@ -74,9 +83,14 @@ class ENAPI:
                 _('dialog-information')
             )
         notification.show()
+
+        # play finish song
         subprocess.call(['/usr/bin/canberra-gtk-play','--id','dialog-information'])
 
     @staticmethod
-    def get_note_link(guid):
+    def copy_link_to_clipboard(guid):
         shareKey = ENAPI.note_store.shareNote(ENAPI.auth_token, guid)
-        return "https://sandbox.evernote.com/shard/%s/sh/%s/%s" % (ENAPI.user.shardId, guid, shareKey)
+        url = "https://sandbox.evernote.com/shard/%s/sh/%s/%s" % (ENAPI.user.shardId, guid, shareKey)
+
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        clipboard.set_text(url, len(url))
