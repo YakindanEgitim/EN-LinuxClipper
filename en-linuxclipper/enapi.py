@@ -10,6 +10,7 @@ import evernote.edam.type.ttypes as Types
 from evernote.api.client import EvernoteClient
 
 from i18n import _
+from common import HOST
 
 class ENAPI:
     auth_token = "S=s1:U=65f0d:E=1457156ba3d:C=13e19a58e41:P=1cd:A=en-devtoken:V=2:H=9fb797af6aa22988ce4c3bf385bd2baf"
@@ -88,7 +89,7 @@ class ENAPI:
     @staticmethod
     def copy_link_to_clipboard(guid):
         shareKey = ENAPI.note_store.shareNote(ENAPI.auth_token, guid)
-        url = "https://sandbox.evernote.com/shard/%s/sh/%s/%s" % (ENAPI.user.shardId, guid, shareKey)
+        url = "https://%s/shard/%s/sh/%s/%s" % (HOST, ENAPI.user.shardId, guid, shareKey)
 
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(url, len(url))

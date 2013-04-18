@@ -41,5 +41,11 @@ class Clipper:
         thumb_surface.write_to_png(dummy_file)
         ENAPI.upload_image(dummy_file.getvalue())
 
+    def capture_selection(self):
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+
     def play_capture_sound(self):
         subprocess.call(['/usr/bin/canberra-gtk-play','--id','screen-capture'])
+
+
+
