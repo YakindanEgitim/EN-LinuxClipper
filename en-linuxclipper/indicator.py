@@ -2,6 +2,7 @@ from gi.repository import Gtk
 from gi.repository import AppIndicator3 as appindicator
 
 from i18n import _
+from clipper import Clipper
 
 class Indicator:
     def __init__(self):
@@ -16,6 +17,7 @@ class Indicator:
         menu.append(Gtk.SeparatorMenuItem.new())
 
         capture_screen = Gtk.MenuItem(_("Capture Full Screen"))
+        capture_screen.connect('activate', self.capture_screen_callback)
         menu.append(capture_screen)
 
         capture_window = Gtk.MenuItem(_("Capture Window"))
@@ -39,4 +41,7 @@ class Indicator:
 
     def quit_callback(self, event):
         Gtk.main_quit()
+
+    def capture_screen_callback(self, event):
+        Clipper().capture_screen()
         
