@@ -3,6 +3,7 @@ from gi.repository import AppIndicator3 as appindicator
 
 from i18n import _
 from clipper import Clipper
+from auth import AuthWin
 
 class Indicator:
     def __init__(self):
@@ -11,8 +12,9 @@ class Indicator:
 
         menu = Gtk.Menu()
 
-        open_dashboard = Gtk.MenuItem(_("Open Dashboard"))
-        menu.append(open_dashboard)
+        auth_user = Gtk.MenuItem(_("Login to Evernote"))
+        auth_user.connect('activate', self.auth_user_callback)
+        menu.append(auth_user)
         
         menu.append(Gtk.SeparatorMenuItem.new())
 
@@ -39,6 +41,8 @@ class Indicator:
         menu.show_all()
         self.ind.set_menu(menu)
 
+    def auth_user_callback(self, event):
+        AuthWin()
 
     def quit_callback(self, event):
         Gtk.main_quit()

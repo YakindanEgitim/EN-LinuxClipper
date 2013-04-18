@@ -11,8 +11,6 @@ from evernote.api.client import EvernoteClient
 
 from i18n import _
 
-
-
 class ENAPI:
     auth_token = "S=s1:U=65f0d:E=1457156ba3d:C=13e19a58e41:P=1cd:A=en-devtoken:V=2:H=9fb797af6aa22988ce4c3bf385bd2baf"
 
