@@ -16,7 +16,9 @@ class AuthWin(Gtk.Window):
         self.oauth_secret = ''
 
         self.web = WebKit.WebView()
-        self.add(self.web)
+        self.scrolled = Gtk.ScrolledWindow()
+        self.scrolled.add(self.web)
+        self.add(self.scrolled)
 
         self.set_size_request(640, 480)
         self.set_position(Gtk.WindowPosition.CENTER)
