@@ -1,12 +1,14 @@
 import cairo
 from gi.repository import Gtk, Gdk
 from enapi import ENAPI
+import subprocess
 
 class Clipper:
     def __init__(self):
         pass
 
     def capture_screen(self):
+        subprocess.call(['/usr/bin/canberra-gtk-play','--id','screen-capture'])
         root_win = Gdk.get_default_root_window()
 
         width, height = root_win.get_width(), root_win.get_height()
