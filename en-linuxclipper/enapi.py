@@ -2,6 +2,7 @@ import hashlib
 import binascii
 import evernote.edam.userstore.constants as UserStoreConstants
 import evernote.edam.type.ttypes as Types
+from gi.repository import Notify
 
 from evernote.api.client import EvernoteClient
 
@@ -62,9 +63,14 @@ class ENAPI:
         note.content += '<en-media type="image/png" hash="' + hash_hex + '"/>'
         note.content += '</en-note>'
 
-        # Finally, send the new note to Evernote using the createNote method
-        # The new Note object that is returned will contain server-generated
-        # attributes such as the new note's unique GUID.
         created_note = ENAPI.note_store.createNote(note)
 
-        print "Successfully created a new note with GUID: ", created_note.guid
+        print dir(created_note)
+
+        Notify.init('En-LinuxClipper')
+        notification = Notify.Notification.new(
+                'New note created',
+                'Your screenshot uploaded, and share link copied to clipboard.',
+                'dialog-information'
+            )
+        notification.show()
