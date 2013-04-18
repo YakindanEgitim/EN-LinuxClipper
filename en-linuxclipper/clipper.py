@@ -1,4 +1,6 @@
-from gi.repository import Gtk, Gdk, GdkPixbuf
+import cairo
+from gi.repository import Gtk, Gdk
+from enapi import ENAPI
 
 class Clipper:
     def __init__(self):
@@ -8,7 +10,11 @@ class Clipper:
         root_win = Gdk.get_default_root_window()
 
         width, height = root_win.get_width(), root_win.get_height()
-        result, x_orig, y_orig = root_win.get_origin()
-
-        screenshot = GdkPixbuf.Pixbuf(root_win, x_orig, y_orig, width, height)
-        screenshot.save("/tmp/testshot.png", "png")
+        thumb_surface = Gdk.Window.create_similar_surface(root_win,
+                                                          cairo.CONTENT_COLOR,
+                                                          width, height)
+        cairo_context = cairo.Context(thumb_surface)
+        Gdk.cairo_set_source_window(cairo_context, root_win, 0, 0)
+        cairo_context.paint()
+        thumb_surface.write_to_png("/tmp/testshot.png")
+        ENAPI.upload_image("/tmp/testshot.png")
