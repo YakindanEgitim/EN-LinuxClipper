@@ -21,6 +21,7 @@ class Indicator:
         menu.append(capture_screen)
 
         capture_window = Gtk.MenuItem(_("Capture Window"))
+        capture_window.connect('activate', self.capture_window_callback)
         menu.append(capture_window)
 
         capture_selection = Gtk.MenuItem(_("Capture Selection"))
@@ -45,3 +46,5 @@ class Indicator:
     def capture_screen_callback(self, event):
         Clipper().capture_screen()
         
+    def capture_window_callback(self, event):
+        Clipper().capture_window()
