@@ -13,30 +13,55 @@ from i18n import _
 from common import HOST
 
 class ENAPI:
-    auth_token = "S=s1:U=65f0d:E=1457156ba3d:C=13e19a58e41:P=1cd:A=en-devtoken:V=2:H=9fb797af6aa22988ce4c3bf385bd2baf"
-
-    client = EvernoteClient(token=auth_token, sandbox=True)
-
-    user_store = client.get_user_store()
-
-    user = user_store.getUser(auth_token)
-
-    version_ok = user_store.checkVersion(
-        "Evernote EDAMTest (Python)",
-        UserStoreConstants.EDAM_VERSION_MAJOR,
-        UserStoreConstants.EDAM_VERSION_MINOR
-    )
-    if not version_ok:
-        exit(1)
-
-    note_store = client.get_note_store()
+    access_token = ""
+    logged = False
 
     @staticmethod
-    def get_notebooks():
-        return note_store.listNotebooks()
+    def get_username():
+        return ENAPI.user.username
+
+    @staticmethod
+    def is_logged():
+        return ENAPI.logged
+
+    @staticmethod
+    def connect():
+        try:
+            ENAPI.client = EvernoteClient(token=ENAPI.access_token, sandbox=True)
+            
+            ENAPI.user_store = ENAPI.client.get_user_store()
+            ENAPI.user = ENAPI.user_store.getUser(ENAPI.access_token)
+            
+            ENAPI.note_store = ENAPI.client.get_note_store()
+
+        except Types.EDAMUserException:
+            # authentication failed
+            return False
+
+        version_ok = ENAPI.user_store.checkVersion(
+            "Evernote EDAMTest (Python)",
+            UserStoreConstants.EDAM_VERSION_MAJOR,
+            UserStoreConstants.EDAM_VERSION_MINOR
+        )
+        if not version_ok:
+            exit(1)
+
+        ENAPI.logged = True
+
+    @staticmethod
+    def disconnect():
+        ENAPI.client = None
+        ENAPI.user_store = None
+        ENAPI.user = None
+        ENAPI.note_store = None
+
+        ENAPI.logged = False
 
     @staticmethod
     def upload_image(image):
+        if not ENAPI.is_logged():
+            return False
+
         note = Types.Note()
 
         now = datetime.datetime.now()
@@ -87,8 +112,13 @@ class ENAPI:
         subprocess.call(['/usr/bin/canberra-gtk-play','--id','dialog-information'])
 
     @staticmethod
+    def set_access_token(access_token):
+        ENAPI.access_token = access_token
+        ENAPI.connect()
+
+    @staticmethod
     def copy_link_to_clipboard(guid):
-        shareKey = ENAPI.note_store.shareNote(ENAPI.auth_token, guid)
+        shareKey = ENAPI.note_store.shareNote(ENAPI.access_token, guid)
         url = "https://%s/shard/%s/sh/%s/%s" % (HOST, ENAPI.user.shardId, guid, shareKey)
 
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
