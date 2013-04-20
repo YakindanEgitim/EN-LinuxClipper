@@ -1,3 +1,3 @@
-CONSUMER_KEY = 'ozcanesen'
-CONSUMER_SECRET = '7263f505fe8c0a74'
+CONSUMER_KEY = 'ozcanesen-8219'
+CONSUMER_SECRET = '6751a65221589bac'
 HOST = 'sandbox.evernote.com'
