@@ -13,9 +13,10 @@ from evernote.api.client import EvernoteClient
 
 from i18n import _
 from common import HOST
+from config import ConfigManager
 
 class ENAPI:
-    access_token = ""
+    access_token = ConfigManager.get_conf('access_token')
     logged = False
 
     # connect and disconnect functions will use this callback
@@ -112,24 +113,33 @@ class ENAPI:
         created_note = ENAPI.note_store.createNote(note)
 
         # share note and copy link to clipboard
-        ENAPI.copy_link_to_clipboard(created_note.guid)
+        if ConfigManager.get_conf('copy-to-clipboard'):
+            ENAPI.copy_link_to_clipboard(created_note.guid)
+
+            notification_message = note.title + _(' was saved, and link copied to clipboard.')
+        else:
+            notification_message = note.title + _(' was saved.')
 
         # show notification
         Notify.init('En-LinuxClipper')
         notification = Notify.Notification.new(
                 _('Upload Finished'),
-                note.title + _(' was saved, and link copied to clipboard.'),
+                notification_message,
                 _('dialog-information')
             )
         notification.show()
 
-        # play finish song
-        subprocess.call(['/usr/bin/canberra-gtk-play','--id','dialog-information'])
+        # play finish sound
+        if ConfigManager.get_conf('play-sound'):
+            subprocess.call(['/usr/bin/canberra-gtk-play','--id','dialog-information'])
 
     @staticmethod
     def set_access_token(access_token):
         ENAPI.access_token = access_token
         ENAPI.connect()
+
+        ConfigManager.set_conf('access_token', access_token)
+        ConfigManager.save_config()
 
     @staticmethod
     def copy_link_to_clipboard(guid):

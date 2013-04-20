@@ -1,8 +1,11 @@
-import cairo
 from gi.repository import Gtk, Gdk
-from enapi import ENAPI
+
+import cairo
 import subprocess
 import StringIO
+
+from enapi import ENAPI
+from config import ConfigManager
 
 class Clipper:
     def __init__(self):
@@ -45,6 +48,8 @@ class Clipper:
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
 
     def play_capture_sound(self):
+        if not ConfigManager.get_conf('play-sound'):
+            return
         subprocess.call(['/usr/bin/canberra-gtk-play','--id','screen-capture'])
 
 
