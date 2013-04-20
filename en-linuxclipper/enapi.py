@@ -7,6 +7,8 @@ import subprocess
 
 import evernote.edam.userstore.constants as UserStoreConstants
 import evernote.edam.type.ttypes as Types
+import evernote.edam.error.ttypes as Errors
+
 from evernote.api.client import EvernoteClient
 
 from i18n import _
@@ -18,6 +20,9 @@ class ENAPI:
 
     @staticmethod
     def get_username():
+        if not ENAPI.is_logged():
+            return False
+
         return ENAPI.user.username
 
     @staticmethod
@@ -34,7 +39,7 @@ class ENAPI:
             
             ENAPI.note_store = ENAPI.client.get_note_store()
 
-        except Types.EDAMUserException:
+        except Errors.EDAMUserException:
             # authentication failed
             return False
 
