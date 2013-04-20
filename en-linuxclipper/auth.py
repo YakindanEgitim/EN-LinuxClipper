@@ -7,6 +7,7 @@ import urlparse
 
 from i18n import _
 from common import CONSUMER_KEY, CONSUMER_SECRET, HOST
+from enapi import ENAPI
 
 class AuthWin(Gtk.Window):
     def __init__(self):
@@ -22,7 +23,7 @@ class AuthWin(Gtk.Window):
 
         self.set_size_request(640, 480)
         self.set_position(Gtk.WindowPosition.CENTER)
-        self.set_title(_("Login to Evernote"))
+        self.set_title(_("Authorize"))
         self.set_skip_taskbar_hint(True)
         self.set_resizable(False)
         self.set_default_size(640, 480)
@@ -59,6 +60,7 @@ class AuthWin(Gtk.Window):
         resp, content = client.request('https://%s/oauth?oauth_callback=' % HOST + urllib.quote('http://en-linuxclipper/'), 'GET')
 
         data = dict(urlparse.parse_qsl(content))
+        
         self.oauth_token = data['oauth_token']
         self.oauth_secret = data['oauth_token_secret']
 
