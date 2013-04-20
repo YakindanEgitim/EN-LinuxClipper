@@ -18,6 +18,10 @@ class ENAPI:
     access_token = ""
     logged = False
 
+    # connect and disconnect functions will use this callback
+    # for updating popup menu defined in Indicator class
+    update_popup_menu_callback = None
+
     @staticmethod
     def get_username():
         if not ENAPI.is_logged():
@@ -53,6 +57,9 @@ class ENAPI:
 
         ENAPI.logged = True
 
+        # update popup menu
+        ENAPI.update_popup_menu_callback()
+
     @staticmethod
     def disconnect():
         ENAPI.client = None
@@ -61,6 +68,9 @@ class ENAPI:
         ENAPI.note_store = None
 
         ENAPI.logged = False
+
+        # update popup menu
+        ENAPI.update_popup_menu_callback()
 
     @staticmethod
     def upload_image(image):
