@@ -1,6 +1,8 @@
 from gi.repository import Gtk
 from gi.repository import AppIndicator3 as appindicator
 
+import mimetypes
+
 from i18n import _
 from clipper import Clipper
 from auth import AuthWin
@@ -42,11 +44,16 @@ class Indicator:
         capture_selection = Gtk.MenuItem(_("Capture Selection"))
         menu.append(capture_selection)
 
+        create_from_file = Gtk.MenuItem(_("Create from file"))
+        create_from_file.connect('activate', self.create_from_file_callback)
+        menu.append(create_from_file)
+
         # make capture links unclickable if not logged
         if not ENAPI.is_logged():
             capture_screen.set_sensitive(False)
             capture_window.set_sensitive(False)
             capture_selection.set_sensitive(False)
+            create_from_file.set_sensitive(False)
 
         menu.append(Gtk.SeparatorMenuItem.new())
 
@@ -71,3 +78,29 @@ class Indicator:
         
     def capture_window_callback(self, event):
         Clipper().capture_window()
+
+    def create_from_file_callback(self, event):
+        chooser_dialog = Gtk.FileChooserDialog(title=_("Open image"),
+            action=Gtk.FileChooserAction.OPEN,
+            buttons=[_("Open"), Gtk.ResponseType.OK, _("Cancel"), Gtk.ResponseType.CANCEL]
+        )
+
+        response = chooser_dialog.run()
+        filename = chooser_dialog.get_filename()
+        chooser_dialog.destroy()
+
+        # we must run gtk main iteration otherwise
+        # file chooser dialog will stay on the screen until
+        # upload process is done.
+        while Gtk.events_pending():
+            Gtk.main_iteration()
+
+        if response == Gtk.ResponseType.OK:
+            mimetypes.init()
+            file_mime = mimetypes.guess_type(filename)[0]
+            file_data = open(filename, "rb").read()
+            file_title = filename.split("/")[-1]
+
+            ENAPI.upload_image(file_data, title=file_title, mime=file_mime)
+
+

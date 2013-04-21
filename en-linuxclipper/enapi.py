@@ -74,14 +74,17 @@ class ENAPI:
         ENAPI.update_popup_menu_callback()
 
     @staticmethod
-    def upload_image(image):
+    def upload_image(image, title=None, mime=None):
         if not ENAPI.is_logged():
             return False
 
         note = Types.Note()
 
         now = datetime.datetime.now()
-        note.title = _("Screenshot ") + now.strftime("%Y-%m-%d %H:%M")
+        if title:
+            note.title = title
+        else:
+            note.title = _("Screenshot ") + now.strftime("%Y-%m-%d %H:%M")
 
         # prepare raw image data for upload
         md5 = hashlib.md5()
@@ -94,7 +97,10 @@ class ENAPI:
 
         # set mime type of image
         resource = Types.Resource()
-        resource.mime = 'image/png'
+        if mime:
+            resource.mime = mime
+        else:
+            resource.mime = 'image/png'
         resource.data = data
 
         # add image data to resource list of note
@@ -106,7 +112,7 @@ class ENAPI:
         note.content += '<!DOCTYPE en-note SYSTEM '
         note.content += '"http://xml.evernote.com/pub/enml2.dtd">'
         note.content += '<en-note>'
-        note.content += '<en-media type="image/png" hash="' + hash_hex + '"/>'
+        note.content += '<en-media type="' + resource.mime + '" hash="' + hash_hex + '"/>'
         note.content += '</en-note>'
 
         # do upload
