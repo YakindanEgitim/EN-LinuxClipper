@@ -1,4 +1,4 @@
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 from gi.repository import AppIndicator3 as appindicator
 
 import mimetypes
@@ -48,12 +48,17 @@ class Indicator:
         create_from_file.connect('activate', self.create_from_file_callback)
         menu.append(create_from_file)
 
+        create_from_clipboard = Gtk.MenuItem(_("Create from clipboard"))
+        create_from_clipboard.connect('activate', self.create_from_clipboard_callback)
+        menu.append(create_from_clipboard)
+
         # make capture links unclickable if not logged
         if not ENAPI.is_logged():
             capture_screen.set_sensitive(False)
             capture_window.set_sensitive(False)
             capture_selection.set_sensitive(False)
             create_from_file.set_sensitive(False)
+            create_from_clipboard.set_sensitive(False)
 
         menu.append(Gtk.SeparatorMenuItem.new())
 
@@ -78,6 +83,13 @@ class Indicator:
         
     def capture_window_callback(self, event):
         Clipper().capture_window()
+
+    def create_from_clipboard_callback(self, event):
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        image = clipboard.wait_for_image()
+        if image != None:
+            image_data = image.save_to_bufferv('png', [], [])[1]
+            ENAPI.upload_image(image_data)
 
     def create_from_file_callback(self, event):
         chooser_dialog = Gtk.FileChooserDialog(title=_("Open image"),
