@@ -1,9 +1,12 @@
-from gi.repository import Gdk
 from base64 import b64encode, b64decode
 import ConfigParser
 import os
 
+
 class ConfigManager():
+    """  
+    This class reponsible for keeping and saving configuration variables 
+    """
 
     # set default values
     config = ConfigParser.SafeConfigParser(
@@ -23,11 +26,12 @@ class ConfigManager():
 
     @staticmethod
     def get_conf(key):
+        """ Return configuration value for key """
         try:
             value = ConfigManager.config.get(ConfigManager.namespace, key)
         except ConfigParser.Error:
-            print ("[DEBUG] No option '%s' found in namespace '%s'." %
-                    (key, ConfigManager.namespace))
+            print ("[DEBUG] No option '%s' found in namespace '%s'." % \
+                (key, ConfigManager.namespace))
             return None
 
         # config parser storing all values as string
@@ -48,6 +52,7 @@ class ConfigManager():
 
     @staticmethod
     def set_conf(key, value):
+        """ Keep new value for key """
         if key == 'access_token':
             value = b64encode(value)
         try:
@@ -59,6 +64,7 @@ class ConfigManager():
 
     @staticmethod
     def save_config():
+        """ Save configuration variables to file. """
         if not os.path.exists(ConfigManager.cfg_dir):
             os.mkdir(ConfigManager.cfg_dir)
 
