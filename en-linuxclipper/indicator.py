@@ -8,7 +8,7 @@ from i18n import _
 from clipper import Clipper
 from auth import AuthWin
 from enapi import ENAPI
-
+from common import HOST
 
 class Indicator:
     """ This class holding indicator object and popup menu. """
@@ -33,6 +33,7 @@ class Indicator:
         if ENAPI.is_logged():
             #Show username if logged
             username = Gtk.MenuItem(_("Logged as ") + ENAPI.get_username())
+            username.connect('activate', self.open_evernote_homepage)
             menu.append(username)
         else:
             #Show Authorize link if not logged
@@ -82,6 +83,10 @@ class Indicator:
         menu.show_all()
         self.ind.set_menu(menu)
 
+    def open_evernote_homepage(self, event):
+        """ Open default web browser and navigate Evernote """
+        Gtk.show_uri(None, 'https://%s' % HOST, 0)
+
     def auth_user_callback(self, event):
         """ Show authentication window. """
         AuthWin()
@@ -96,7 +101,7 @@ class Indicator:
         class 
         """
         Clipper().capture_screen()
-        
+
     def capture_window_callback(self, event):
         """
         Works as capture screen.
