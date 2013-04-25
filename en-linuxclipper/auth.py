@@ -88,9 +88,7 @@ class AuthWin(Gtk.Window):
 
         # set http://en-linuxclipper/ as dummy callback url
         # we will catch this url with webkit events.
-        resp, content = client.request('https://%s/oauth?oauth_callback=' % \
-                            (HOST + urllib.quote('http://en-linuxclipper/'), 
-                            'GET'))
+        resp, content = client.request(('https://%s/oauth?oauth_callback=' % HOST) + urllib.quote('http://en-linuxclipper/'), 'GET')
 
         data = dict(urlparse.parse_qsl(content))
 
@@ -98,5 +96,4 @@ class AuthWin(Gtk.Window):
         self.oauth_token = data['oauth_token']
         self.oauth_secret = data['oauth_token_secret']
 
-        return 'http://%s/OAuth.action?oauth_token=' % \
-            HOST + urllib.quote(data['oauth_token'])
+        return 'http://%s/OAuth.action?oauth_token=' % HOST + urllib.quote(data['oauth_token'])
