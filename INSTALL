@@ -1,0 +1,17 @@
+# HOW TO USE PROVIDED VAGRANT IMAGES
+
+* Check-out vagrant folder in devel branch.
+* Enter vagrant folder in your copy
+
+$ cd vagrant
+
+* Rename the desired distribution vagrant config file. i.e.:
+
+$ cp Vagrantfile-fedora-18-i386 Vagrantfile
+
+* Issue vagrant up command. Vagrant will download the base image from internet and use the provided puppet configuration to prepare the environment to run the project.
+
+$ vagrant up
+
+* A virtualbox machine with GUI will be started and vagrant user will be auto logged in. Start a terminal and run en-clipper.
+
