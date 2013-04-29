@@ -1,6 +1,12 @@
 # HOW TO USE PROVIDED VAGRANT IMAGES
 
 * Check-out vagrant folder in devel branch.
+* Checkout used submodules for puppet
+
+$ cd EN-LinuxClipper
+$ git submodule init
+$ git submodule update
+
 * Enter vagrant folder in your copy
 
 $ cd vagrant
