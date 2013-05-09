@@ -20,7 +20,7 @@ class Indicator:
     def __init__(self):
         """ Define indicator object """
 
-        self.icon_name = "everpad"
+        self.icon_name = "enlinuxclipper"
 
         if use_status_icon:
             self.ind = Gtk.StatusIcon()
