@@ -4,17 +4,14 @@ import os
 
 
 class ConfigManager():
-    """  
-    This class reponsible for keeping and saving configuration variables 
+    """
+    This class reponsible for keeping and saving configuration variables
     """
 
     # set default values
-    config = ConfigParser.SafeConfigParser(
-        {
-        'access_token': '',
-        'play-sound': 'True',
-        'copy-to-clipboard': 'True'
-        })
+    config = ConfigParser.SafeConfigParser({'access_token': '',
+                                           'play-sound': 'True',
+                                           'copy-to-clipboard': 'True'})
 
     # config path
     cfg_dir = os.environ['HOME'] + '/.config/en-linuxclipper/'
@@ -30,8 +27,8 @@ class ConfigManager():
         try:
             value = ConfigManager.config.get(ConfigManager.namespace, key)
         except ConfigParser.Error:
-            print ("[DEBUG] No option '%s' found in namespace '%s'." % \
-                (key, ConfigManager.namespace))
+            print ("[DEBUG] No option '%s' found in namespace '%s'." %
+                   (key, ConfigManager.namespace))
             return None
 
         # config parser storing all values as string
@@ -59,7 +56,7 @@ class ConfigManager():
             ConfigManager.config.set(ConfigManager.namespace, key, str(value))
         except ConfigParser.Error:
             print ("[DEBUG] No option '%s' found in namespace '%s'." %
-                    (key, ConfigManager.namespace))
+                   (key, ConfigManager.namespace))
             return
 
     @staticmethod

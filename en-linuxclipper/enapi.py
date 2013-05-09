@@ -7,7 +7,7 @@ import subprocess
 import evernote.edam.userstore.constants as UserStoreConstants
 import evernote.edam.type.ttypes as Types
 import evernote.edam.error.ttypes as Errors
- 
+
 from evernote.api.client import EvernoteClient
 
 from i18n import _
@@ -57,8 +57,8 @@ class ENAPI:
         """
 
         try:
-            ENAPI.client = EvernoteClient(token=ENAPI.access_token, 
-                                            sandbox=True)
+            ENAPI.client = EvernoteClient(token=ENAPI.access_token,
+                                          sandbox=True)
 
             ENAPI.user_store = ENAPI.client.get_user_store()
             ENAPI.user = ENAPI.user_store.getUser(ENAPI.access_token)
@@ -201,10 +201,10 @@ class ENAPI:
 
         == TO DO: Add some error handling blocks ==
         """
-        
+
         shareKey = ENAPI.note_store.shareNote(ENAPI.access_token, guid)
         url = "https://%s/shard/%s/sh/%s/%s" % (HOST, ENAPI.user.shardId,
-                                                 guid, shareKey)
+                                                guid, shareKey)
 
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(url, len(url))

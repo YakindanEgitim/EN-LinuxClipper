@@ -11,19 +11,19 @@ from i18n import _
 
 
 class Clipper:
-    """ 
-    This class contains Gtk parts of application like capturing 
+    """
+    This class contains Gtk parts of application like capturing
     screen or window.
     """
     def __init__(self):
         pass
 
     def capture_screen(self):
-        """ 
+        """
         Find root window, get capture with cairo and create new note with that
-        attachment. Attachment's mime is 'image/png' and note title is 
+        attachment. Attachment's mime is 'image/png' and note title is
         Screenshot {date}
-        
+
         === TO DO: Add some error handling code ===
         """
 
@@ -42,11 +42,10 @@ class Clipper:
         thumb_surface.write_to_png(dummy_file)
 
         now = datetime.datetime.now()
-        ENAPI.create_note(
-            title=_("Screenshot ") + now.strftime("%Y-%m-%d %H:%M"),
-            attachment_data=dummy_file.getvalue(),
-            attachment_mime='image/png'
-            )
+        ENAPI.create_note(title=_("Screenshot ") + now.strftime("%Y-%m-%d %H:%M"),
+                          attachment_data=dummy_file.getvalue(),
+                          attachment_mime='image/png'
+                          )
 
     def capture_window(self):
         """
@@ -73,11 +72,10 @@ class Clipper:
         thumb_surface.write_to_png(dummy_file)
 
         now = datetime.datetime.now()
-        ENAPI.create_note(
-            title=_("Screenshot ") + now.strftime("%Y-%m-%d %H:%M"),
-            attachment_data=dummy_file.getvalue(),
-            attachment_mime='image/png'
-            )
+        ENAPI.create_note(title=_("Screenshot ") + now.strftime("%Y-%m-%d %H:%M"),
+                          attachment_data=dummy_file.getvalue(),
+                          attachment_mime='image/png'
+                          )
 
     def capture_selection(self):
         """ Not implemented yet. """
@@ -86,9 +84,9 @@ class Clipper:
 
     def play_capture_sound(self):
         """ Play sound effect when screen or window captured. """
-        
+
         if not ConfigManager.get_conf('play-sound'):
             return
 
-        subprocess.call(['/usr/bin/canberra-gtk-play', 
-            '--id', 'screen-capture'])
+        subprocess.call(['/usr/bin/canberra-gtk-play',
+                        '--id', 'screen-capture'])

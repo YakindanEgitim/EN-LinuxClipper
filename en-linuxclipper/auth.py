@@ -11,8 +11,8 @@ from enapi import ENAPI
 
 
 class AuthWin(Gtk.Window):
-    """ 
-    This class is Window object containing web browser. 
+    """
+    This class is Window object containing web browser.
     And will be used for authentication.
     """
 
@@ -40,8 +40,8 @@ class AuthWin(Gtk.Window):
         self.set_default_size(640, 480)
 
         # see details about this event in callback function.
-        self.web.connect('navigation-policy-decision-requested', 
-            self.webkit_navigation_callback)
+        self.web.connect('navigation-policy-decision-requested',
+                         self.webkit_navigation_callback)
 
         # generate authentication url and load it with webkit.
         self.web.load_uri(self.get_oauth_url())
@@ -49,7 +49,7 @@ class AuthWin(Gtk.Window):
 
     def webkit_navigation_callback(self, frame, request, action, *args):
         """
-        This event triggered when WebKit got new url to open, we are 
+        This event triggered when WebKit got new url to open, we are
         using this to check if Evernote redirected user to our callback url.
         """
 
@@ -78,7 +78,7 @@ class AuthWin(Gtk.Window):
         return False
 
     def get_oauth_url(self):
-        """ 
+        """
         Generate OAuth verification url with consumer keys defined in common.py
         Returns: OAuth Url (String)
         """

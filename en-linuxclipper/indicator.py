@@ -10,12 +10,13 @@ from auth import AuthWin
 from enapi import ENAPI
 from common import HOST
 
+
 class Indicator:
     """ This class holding indicator object and popup menu. """
     def __init__(self):
         """ Define indicator object """
-        self.ind = appindicator.Indicator.new("notify", "everpad-mono", 
-            appindicator.IndicatorCategory.APPLICATION_STATUS)
+        self.ind = appindicator.Indicator.new("notify", "everpad-mono",
+                                              appindicator.IndicatorCategory.APPLICATION_STATUS)
         self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
 
         # connect update menu function and ENAPI class.
@@ -24,8 +25,8 @@ class Indicator:
         self.update_popup_menu()
 
     def update_popup_menu(self):
-        """ 
-        Update popup menu items by login status, This function will be used by 
+        """
+        Update popup menu items by login status, This function will be used by
         ENAPI class.
         """
         menu = Gtk.Menu()
@@ -59,8 +60,8 @@ class Indicator:
         menu.append(create_from_file)
 
         create_from_clipboard = Gtk.MenuItem(_("Create from clipboard"))
-        create_from_clipboard.connect('activate', 
-            self.create_from_clipboard_callback)
+        create_from_clipboard.connect('activate',
+                                      self.create_from_clipboard_callback)
         menu.append(create_from_clipboard)
 
         # make capture links unclickable if not logged
@@ -96,9 +97,9 @@ class Indicator:
         Gtk.main_quit()
 
     def capture_screen_callback(self, event):
-        """ 
-        This is just proxy function that redirects capture request to Clipper 
-        class 
+        """
+        This is just proxy function that redirects capture request to Clipper
+        class
         """
         Clipper().capture_screen()
 
@@ -110,7 +111,7 @@ class Indicator:
 
     def create_from_clipboard_callback(self, event):
         """
-        Get image data from X clipboard if available, and create new note with 
+        Get image data from X clipboard if available, and create new note with
         that image.
         """
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
@@ -118,13 +119,12 @@ class Indicator:
 
         if image != None:
             image_data = image.save_to_bufferv('png', [], [])[1]
-            
+
             now = datetime.datetime.now()
             ENAPI.create_note(
                 title=_("Clipboard ") + now.strftime("%Y-%m-%d %H:%M"),
                 attachment_data=image_data,
-                attachment_mime='image/png'
-                )
+                attachment_mime='image/png')
 
     def create_from_file_callback(self, event):
         """
@@ -132,10 +132,10 @@ class Indicator:
         Create new note with selected file.
         """
         chooser_dialog = Gtk.FileChooserDialog(title=_("Open image"),
-            action=Gtk.FileChooserAction.OPEN,
-            buttons=[_("Open"), Gtk.ResponseType.OK, _("Cancel"), 
-                Gtk.ResponseType.CANCEL]
-        )
+                                               action=Gtk.FileChooserAction.OPEN,
+                                               buttons=[_("Open"), Gtk.ResponseType.OK, _("Cancel"),
+                                               Gtk.ResponseType.CANCEL]
+                                               )
 
         response = chooser_dialog.run()
         filename = chooser_dialog.get_filename()
@@ -153,8 +153,7 @@ class Indicator:
             file_data = open(filename, "rb").read()
             file_title = filename.split("/")[-1]
 
-            ENAPI.create_note(
-                title=file_title,
-                attachment_data=file_data,
-                attachment_mime=file_mime
-                )
+            ENAPI.create_note(title=file_title,
+                              attachment_data=file_data,
+                              attachment_mime=file_mime
+                              )

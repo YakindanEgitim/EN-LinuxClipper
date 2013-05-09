@@ -4,7 +4,7 @@ try:
     gettext.textdomain('en-linuxclipper')
     _ = gettext.gettext
 except ImportError:
-    def dummytrans (text):
+    def dummytrans(text):
         """ Return argument without change """
         return(text)
 
