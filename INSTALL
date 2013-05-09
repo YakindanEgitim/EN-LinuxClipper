@@ -1,5 +1,6 @@
 # HOW TO USE PROVIDED VAGRANT IMAGES
 
+* Head over to http://downloads.vagrantup.com/tags/v1.2.2 and download the appropriate installer for your platform then install vagrant with the downloaded file.
 * Check-out vagrant folder in devel branch.
 * Checkout used submodules for puppet
 
