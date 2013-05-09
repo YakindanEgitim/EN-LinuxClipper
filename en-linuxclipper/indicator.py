@@ -1,5 +1,9 @@
 from gi.repository import Gtk, Gdk
-from gi.repository import AppIndicator3 as appindicator
+try:
+    from gi.repository import AppIndicator3 as appindicator
+    use_status_icon = False
+except ImportError:
+    use_status_icon = True
 
 import mimetypes
 import datetime
@@ -15,14 +19,30 @@ class Indicator:
     """ This class holding indicator object and popup menu. """
     def __init__(self):
         """ Define indicator object """
-        self.ind = appindicator.Indicator.new("notify", "everpad-mono",
-                                              appindicator.IndicatorCategory.APPLICATION_STATUS)
-        self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
+
+        self.icon_name = "everpad-mono"
+
+        if use_status_icon:
+            self.ind = Gtk.StatusIcon()
+            self.ind.set_from_icon_name(self.icon_name)
+            self.ind.set_visible(True)
+            self.ind.connect('popup-menu', self.status_icon_callback)
+        else:
+            self.ind = appindicator.Indicator.new("notify", self.icon_name,
+                                                  appindicator.IndicatorCategory.APPLICATION_STATUS)
+            self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
 
         # connect update menu function and ENAPI class.
         # so enapi class can update popup menu when connected or disconected.
         ENAPI.update_popup_menu_callback = self.update_popup_menu
         self.update_popup_menu()
+
+    def status_icon_callback(self, icon, button, time):
+        """
+        Status icon different than indicator, needs callback to show a popup menu.
+        """
+        self.menu.popup(None, None, lambda menu, icon: Gtk.StatusIcon.position_menu(menu, icon), icon, button, time)
+        
 
     def update_popup_menu(self):
         """
@@ -82,7 +102,11 @@ class Indicator:
         menu.append(quit)
 
         menu.show_all()
-        self.ind.set_menu(menu)
+
+        if use_status_icon:
+            self.menu = menu
+        else:
+            self.ind.set_menu(menu)
 
     def open_evernote_homepage(self, event):
         """ Open default web browser and navigate Evernote """
