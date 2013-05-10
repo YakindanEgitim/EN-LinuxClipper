@@ -1,0 +1,10 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: en-linuxclipper
+Upstream-Contact: Ozcan ESEN <ozcanesen@gmail.com>
+Source: https://github.com/YakindanEgitim/EN-LinuxClipper
+
+Files: *
+Copyright: (C) 2012 - Ozcan ESEN <ozcanesen~gmail.com>
+License: GPL-3
+ The full text of the GPL is distributed in
+ /usr/share/common-licenses/GPL-3 on Debian systems.
