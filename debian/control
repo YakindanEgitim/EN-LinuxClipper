@@ -13,9 +13,7 @@ Architecture: all
 Depends: ${misc:Depends},
  ${python:Depends},
  gir1.2-gtk-3.0,
- gir1.2-appindicator3,
  gir1.2-webkit-3.0,
- python-oauth2,
- gir1.2-appindicator3
+ python-oauth2
 Description: EN-LinuxClipper
  Evernote Client for Linux desktops
