@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=EN-LinuxClipper
+Version=0.1.0
+Comment=Evernote Client
+Terminal=false
+Icon=enlinuxclipper.svg
+Type=Application
+Exec=en-linuxclipper
+Categories=GNOME;Utility;
