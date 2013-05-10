@@ -9,7 +9,7 @@ Standards-Version: 3.9.3
 X-Python-Version: >= 2.6
 
 Package: en-linuxclipper
-Architecture: any
+Architecture: all
 Depends: ${misc:Depends},
  ${python:Depends},
  gir1.2-gtk-3.0,
