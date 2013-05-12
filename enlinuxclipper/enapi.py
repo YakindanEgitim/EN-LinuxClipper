@@ -3,6 +3,7 @@ from gi.repository import Notify, Gtk, Gdk
 import hashlib
 import binascii
 import subprocess
+from cgi import escape
 
 import evernote.edam.userstore.constants as UserStoreConstants
 import evernote.edam.type.ttypes as Types
@@ -100,7 +101,7 @@ class ENAPI:
         ENAPI.update_popup_menu_callback()
 
     @staticmethod
-    def create_note(title=None, attachment_data=None, attachment_mime=None):
+    def create_note(title=None, attachment_data=None, attachment_mime=None, note_content=None):
         """
         Create new note with given arguments. ENAPI class must be logged to
         work.
@@ -120,35 +121,44 @@ class ENAPI:
         note = Types.Note()
         note.title = title
 
-        # generate hash of attachment
-        md5 = hashlib.md5()
-        md5.update(attachment_data)
-        hash = md5.digest()
+        if note_content:
+            # string note
+            note.content = '<?xml version="1.0" encoding="UTF-8"?>'
+            note.content += '<!DOCTYPE en-note SYSTEM '
+            note.content += '"http://xml.evernote.com/pub/enml2.dtd">'
+            note.content += '<en-note>'
+            note.content += escape(note_content).replace('\n', '<br />')
+            note.content += '</en-note>'            
+        else:
+            # attachment note
+            md5 = hashlib.md5()
+            md5.update(attachment_data)
+            hash = md5.digest()
 
-        # create data object from attachment
-        data = Types.Data()
-        data.size = len(attachment_data)
-        data.bodyHash = hash
-        data.body = attachment_data
+            # create data object from attachment
+            data = Types.Data()
+            data.size = len(attachment_data)
+            data.bodyHash = hash
+            data.body = attachment_data
 
-        # add data object to note's resources
-        if attachment_mime == None:
-            attachment_mime = "application/octet-stream"
+            # add data object to note's resources
+            if attachment_mime == None:
+                attachment_mime = "application/octet-stream"
 
-        resource = Types.Resource()
-        resource.mime = attachment_mime
-        resource.data = data
-        note.resources = [resource]
-        hash_hex = binascii.hexlify(hash)
+            resource = Types.Resource()
+            resource.mime = attachment_mime
+            resource.data = data
+            note.resources = [resource]
+            hash_hex = binascii.hexlify(hash)
 
-        # generate note context
-        note.content = '<?xml version="1.0" encoding="UTF-8"?>'
-        note.content += '<!DOCTYPE en-note SYSTEM '
-        note.content += '"http://xml.evernote.com/pub/enml2.dtd">'
-        note.content += '<en-note>'
-        note.content += '<en-media type="' + resource.mime
-        note.content += '" hash="' + hash_hex + '"/>'
-        note.content += '</en-note>'
+            # generate note context
+            note.content = '<?xml version="1.0" encoding="UTF-8"?>'
+            note.content += '<!DOCTYPE en-note SYSTEM '
+            note.content += '"http://xml.evernote.com/pub/enml2.dtd">'
+            note.content += '<en-note>'
+            note.content += '<en-media type="' + resource.mime
+            note.content += '" hash="' + hash_hex + '"/>'
+            note.content += '</en-note>'
 
         # create note
         created_note = ENAPI.note_store.createNote(note)

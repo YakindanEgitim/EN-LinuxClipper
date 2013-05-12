@@ -150,6 +150,13 @@ class Indicator:
                 attachment_data=image_data,
                 attachment_mime='image/png')
 
+        text = clipboard.wait_for_text()
+        if text != None:
+            now = datetime.datetime.now()
+            ENAPI.create_note(
+                title=_("Clipboard ") + now.strftime("%Y-%m-%d %H:%M"),
+                note_content=text)
+
     def create_from_file_callback(self, event):
         """
         Open new Gtk FileChooser dialog, and defined mime type of selected file.
