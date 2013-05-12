@@ -132,6 +132,9 @@ class ENAPI:
         data.body = attachment_data
 
         # add data object to note's resources
+        if attachment_mime == None:
+            attachment_mime = "application/octet-stream"
+
         resource = Types.Resource()
         resource.mime = attachment_mime
         resource.data = data
