@@ -23,26 +23,15 @@ package { 'git':
     ensure => present,
 }
 
-package { 'python-pip':
+package { 'python-oauth2':
     ensure => present,
 }
 
-if $operatingsystem == 'Fedora' {
-    file { "/usr/bin/pip":
-        ensure => link,
-        target => "/usr/bin/pip-python",
-        require => Package["python-pip"],
-        before => Package["evernote"],
-    }
+package { 'python-distutils-extra':
+    ensure => present,
 }
 
-package { "evernote":
-    ensure => latest,
-    provider => pip,
-    require => Package["python-pip"],
-}
-
-vcsrepo { "/opt/EN-LinuxClipper":
+vcsrepo { "/tmp/EN-LinuxClipper":
     ensure   => latest,
     owner    => vagrant,
     group    => vagrant,
@@ -50,20 +39,12 @@ vcsrepo { "/opt/EN-LinuxClipper":
     require  => [ Package["git"] ],
     source   => "https://github.com/YakindanEgitim/EN-LinuxClipper.git",
     revision => 'devel',
-    before   => [ File["/usr/bin/en-clipper"], File["/opt/EN-LinuxClipper/en-linuxclipper/core.py"] ],
 }
 
-file { "/usr/bin/en-clipper":
-    ensure => link,
-    target => "/opt/EN-LinuxClipper/en-linuxclipper/core.py",
-}
-
-file { "/opt/EN-LinuxClipper/en-linuxclipper/core.py":
-    ensure => file,
-    mode => 0755,
-}
-
-file { "/usr/share/icons/hicolor/64x64/apps/everpad-mono.png":
-    ensure => file,
-    source => "/vagrant/everpad-mono.png",
+exec { "enlinuxclipper":
+    command => "/usr/bin/env python setup.py install",
+    cwd => "/tmp/EN-LinuxClipper",
+    refreshonly => true,
+    require => [ Package["python-distutils-extra"] ],
+    subscribe => [ Vcsrepo["/tmp/EN-LinuxClipper"] ],
 }
