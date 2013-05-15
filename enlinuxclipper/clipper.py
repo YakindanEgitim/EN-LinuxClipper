@@ -88,9 +88,11 @@ class Clipper:
         if not ConfigManager.get_conf('play-sound'):
             return
 
-        subprocess.call(['/usr/bin/canberra-gtk-play',
-                        '--id', 'screen-capture'])
-
+        try:
+            subprocess.call(['/usr/bin/canberra-gtk-play',
+                            '--id', 'screen-capture'])
+        except:
+            print "[ERROR] Can't find canberra-gtk-play executable"
 
 class SelectionWindow(Gtk.Window):
     def __init__(self):
