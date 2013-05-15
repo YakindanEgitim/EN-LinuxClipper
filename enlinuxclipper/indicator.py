@@ -73,6 +73,7 @@ class Indicator:
         menu.append(capture_window)
 
         capture_selection = Gtk.MenuItem(_("Capture Selection"))
+        capture_selection.connect('activate', self.capture_selection_callback)
         menu.append(capture_selection)
 
         create_from_file = Gtk.MenuItem(_("Create from file"))
@@ -132,6 +133,13 @@ class Indicator:
         Works as capture screen.
         """
         Clipper().capture_window()
+
+    def capture_selection_callback(self, event):
+        """
+        Works as capture screen.
+        """
+        Clipper().capture_selection()
+
 
     def create_from_clipboard_callback(self, event):
         """
