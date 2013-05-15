@@ -11,7 +11,8 @@ class ConfigManager():
     # set default values
     config = ConfigParser.SafeConfigParser({'access_token': '',
                                            'play-sound': 'True',
-                                           'copy-to-clipboard': 'True'})
+                                           'copy-to-clipboard': 'True',
+                                           'googl-shortlink': 'True'})
 
     # config path
     cfg_dir = os.environ['HOME'] + '/.config/en-linuxclipper/'

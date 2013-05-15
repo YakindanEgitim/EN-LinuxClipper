@@ -3,6 +3,8 @@ from gi.repository import Notify, Gtk, Gdk
 import hashlib
 import binascii
 import subprocess
+import httplib
+
 from cgi import escape
 
 import evernote.edam.userstore.constants as UserStoreConstants
@@ -219,5 +221,23 @@ class ENAPI:
         url = "https://%s/shard/%s/sh/%s/%s" % (HOST, ENAPI.user.shardId,
                                                 guid, shareKey)
 
+        if ConfigManager.get_conf('googl-shortlink'):
+            url = ENAPI.googl_shortlink(url)
+
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(url, len(url))
+
+    @staticmethod
+    def googl_shortlink(url):
+        try:
+            connection = httplib.HTTPSConnection("www.googleapis.com")
+
+            headers = {"Content-type": "application/json"}
+            data = '{"longUrl": "' + url + '"}'
+
+            connection.request('POST', '/urlshortener/v1/url', data, headers)
+            response = connection.getresponse().read()
+            
+            return response.split('"id": "')[1].split('"')[0]
+        except:
+            return url
