@@ -100,8 +100,9 @@ class SelectionWindow(Gtk.Window):
         # basic window properties
         self.set_app_paintable(True)
         self.set_decorated(False)
+        self.set_skip_taskbar_hint(True)
+        self.set_keep_above(True)
         self.override_background_color(Gtk.StateFlags.NORMAL, Gdk.RGBA(0, 0, 0, 1))
-        self.fullscreen()
 
         # configure masks and connect events
 
@@ -139,7 +140,9 @@ class SelectionWindow(Gtk.Window):
         cairo_context.paint()
 
         # show window and init default rectangle
-        self.show_all()
+        self.fullscreen()
+        #self.show_all()
+        self.present()
         self.clear_rectangle()
 
     def clear_rectangle(self):
@@ -211,8 +214,12 @@ class SelectionWindow(Gtk.Window):
             self.clear_rectangle()
 
         elif keyval == 'return' and self.finished:
-            # hide selection window and play capture sound.
+            # hide selection window immediately
             self.hide()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+
+            # play sound
             Clipper().play_capture_sound()
 
             # create new image surface 
