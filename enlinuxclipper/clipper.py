@@ -205,7 +205,7 @@ class SelectionWindow(Gtk.Window):
             # draw border for rectangle.
             cr.set_source_rgba(1, 0, 0, 0.5)
             cr.set_dash([5,5,10,5], self.offset)
-            cr.set_line_width(1.0)
+            cr.set_line_width(1.5)
             cr.rectangle(self.mousex1,self.mousey1,self.mousex2 - self.mousex1,self.mousey2 - self.mousey1)
             cr.stroke()
 
