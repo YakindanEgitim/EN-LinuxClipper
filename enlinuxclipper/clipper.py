@@ -1,4 +1,4 @@
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, Gtk, GLib
 
 import cairo
 import subprocess
@@ -141,11 +141,20 @@ class SelectionWindow(Gtk.Window):
         Gdk.cairo_set_source_window(cairo_context, root_win, 0, 0)
         cairo_context.paint()
 
+        # this is for rectangle border animation
+        self.offset = 0
+        self.increase_offset()
+
         # show window and init default rectangle
         self.fullscreen()
         #self.show_all()
         self.present()
         self.clear_rectangle()
+
+    def increase_offset(self):
+        self.offset += 1
+        GLib.timeout_add(40, self.increase_offset)
+        self.queue_draw()
 
     def clear_rectangle(self):
         """ Set default rectangle """
@@ -195,7 +204,7 @@ class SelectionWindow(Gtk.Window):
 
             # draw border for rectangle.
             cr.set_source_rgba(1, 0, 0, 0.5)
-            cr.set_dash([5,5,10,5], 0)
+            cr.set_dash([5,5,10,5], self.offset)
             cr.set_line_width(1.0)
             cr.rectangle(self.mousex1,self.mousey1,self.mousex2 - self.mousex1,self.mousey2 - self.mousey1)
             cr.stroke()
