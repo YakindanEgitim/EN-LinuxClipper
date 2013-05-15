@@ -151,6 +151,10 @@ class SelectionWindow(Gtk.Window):
         self.present()
         self.clear_rectangle()
 
+        # change cursor
+        cursor = Gdk.Cursor.new(Gdk.CursorType.CROSSHAIR)
+        self.get_window().set_cursor(cursor)
+
     def increase_offset(self):
         self.offset += 1
         GLib.timeout_add(40, self.increase_offset)
