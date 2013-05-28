@@ -110,10 +110,11 @@ class Clipper:
             return
 
         try:
-            subprocess.call(['/usr/bin/canberra-gtk-play',
-                            '--id', 'screen-capture'])
+            import pycanberra
+            canberra = pycanberra.Canberra()
+            canberra.play(1, pycanberra.CA_PROP_EVENT_ID, 'screen-capture', None)
         except:
-            print "[ERROR] Can't find canberra-gtk-play executable"
+            print "Failed to play sound."
 
 class SelectionWindow(Gtk.Window):
     def __init__(self):

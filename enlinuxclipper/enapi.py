@@ -207,8 +207,12 @@ class ENAPI:
 
         # play finish sound
         if ConfigManager.get_conf('play-sound'):
-            subprocess.call(['/usr/bin/canberra-gtk-play',
-                            '--id', 'dialog-information'])
+            try:
+                import pycanberra
+                canberra = pycanberra.Canberra()
+                canberra.play(1, pycanberra.CA_PROP_EVENT_ID, 'dialog-information', None)
+            except:
+                print "Failed to play sound."
 
     @staticmethod
     def set_access_token(access_token):
