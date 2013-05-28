@@ -2,8 +2,7 @@ Source: en-linuxclipper
 Section: python
 Priority: extra
 Build-Depends: debhelper (>= 8),
- python (>= 2.6.6-3~),
- python-distutils-extra (>= 2.10)
+ python (>= 2.6.6-3~)
 Maintainer: Ozcan ESEN <ozcanesen@gmail.com>
 Standards-Version: 3.9.3
 X-Python-Version: >= 2.6
