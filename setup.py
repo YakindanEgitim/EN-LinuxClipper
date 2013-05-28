@@ -21,11 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
 
 from distutils.core import setup
-from DistUtilsExtra.command import *
 
-import re
 import glob
-from subprocess import Popen, PIPE
 
 setup(name="enlinuxclipper",
       version="0.1.0",
@@ -51,10 +48,6 @@ setup(name="enlinuxclipper",
                   'evernote.edam.type',
                   'evernote.edam.error'],
       data_files=[('share/icons/hicolor/scalable/apps/', glob.glob("data/icons/*svg")),
-                  ('share/applications/', glob.glob("data/desktop/*desktop"))],
-      cmdclass = { "build" : build_extra.build_extra,
-                   "build_i18n" :  build_i18n.build_i18n,
-                   "build_help" : build_help.build_help,
-                   "build_icons" : build_icons.build_icons}
+                  ('share/applications/', glob.glob("data/desktop/*desktop"))]
       )
 
