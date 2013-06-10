@@ -48,6 +48,7 @@ setup(name="enlinuxclipper",
                   'evernote.edam.type',
                   'evernote.edam.error'],
       data_files=[('share/icons/hicolor/scalable/apps/', glob.glob("data/icons/*svg")),
-                  ('share/applications/', glob.glob("data/desktop/*desktop"))]
+                  ('share/en-linuxclipper/', glob.glob("data/share/en-linuxclipper/*"))
+                  ('share/applications/', glob.glob("data/share/applications/*desktop"))]
       )
 
