@@ -143,6 +143,7 @@ class ENAPI:
 
         note = Types.Note()
         note.title = title
+        note.notebookGuid = ConfigManager.get_conf('notebookguid')
 
         if note_content:
             # string note
@@ -213,6 +214,17 @@ class ENAPI:
                 canberra.play(1, pycanberra.CA_PROP_EVENT_ID, 'dialog-information', None)
             except:
                 print "Failed to play sound."
+
+    @staticmethod
+    def get_notebook_list():
+        """
+        This function returns all user notebooks (name and guid).
+        """
+
+        if not ENAPI.is_logged():
+            return
+
+        return [[notebook.name, notebook.guid] for notebook in ENAPI.note_store.listNotebooks()]
 
     @staticmethod
     def set_access_token(access_token):

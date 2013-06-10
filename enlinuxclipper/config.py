@@ -33,7 +33,8 @@ class ConfigManager():
     config = ConfigParser.SafeConfigParser({'access_token': '',
                                            'play-sound': 'True',
                                            'copy-to-clipboard': 'True',
-                                           'googl-shortlink': 'True'})
+                                           'googl-shortlink': 'True',
+                                           'notebookguid': ''})
 
     # config path
     cfg_dir = os.environ['HOME'] + '/.config/en-linuxclipper/'
