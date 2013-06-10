@@ -1,0 +1,21 @@
+Source: en-linuxclipper
+Section: python
+Priority: extra
+Build-Depends: debhelper (>= 8),
+ python (>= 2.6.6-3~)
+Maintainer: Ozcan ESEN <ozcanesen@gmail.com>
+Standards-Version: 3.9.3
+X-Python-Version: >= 2.6
+
+Package: en-linuxclipper
+Architecture: all
+Depends: ${misc:Depends},
+ ${python:Depends},
+ gir1.2-gtk-3.0,
+ gir1.2-webkit-3.0,
+ python-oauth2,
+ python-cairo,
+ python-gi-cairo,
+ gir1.2-notify-0.7
+Description: EN-LinuxClipper
+ Evernote Client for Linux desktops
