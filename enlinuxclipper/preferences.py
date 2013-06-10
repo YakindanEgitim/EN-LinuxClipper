@@ -37,7 +37,7 @@ class Preferences():
 
     def init_ui(self):
         builder = Gtk.Builder()
-        builder.set_translation_domain('en-linuxclipper')
+        builder.set_translation_domain('enlinuxclipper')
         builder.add_from_file(DIR_PREFIX + '/share/en-linuxclipper/preferences.ui')
 
         self.window = builder.get_object('window')

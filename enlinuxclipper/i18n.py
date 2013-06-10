@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 _ = None
 try:
     import gettext
-    gettext.textdomain('en-linuxclipper')
+    gettext.textdomain('enlinuxclipper')
     _ = gettext.gettext
 except ImportError:
     def dummytrans(text):

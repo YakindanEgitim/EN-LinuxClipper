@@ -1,0 +1,13 @@
+[type: python] bin/en-linuxclipper
+[type: gettext/glade] data/share/en-linuxclipper/preferences.ui
+enlinuxclipper/__init__.py
+enlinuxclipper/i18n.py
+enlinuxclipper/enapi.py
+enlinuxclipper/pycanberra.py
+enlinuxclipper/auth.py
+enlinuxclipper/core.py
+enlinuxclipper/indicator.py
+enlinuxclipper/common.py
+enlinuxclipper/clipper.py
+enlinuxclipper/preferences.py
+enlinuxclipper/config.py

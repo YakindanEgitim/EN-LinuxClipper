@@ -20,35 +20,43 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 """
 
-from distutils.core import setup
-
 import glob
+import sys
 
-setup(name="enlinuxclipper",
-      version="0.1.0",
-      description="Evernote client for Linux desktops",
-      author="Ozcan ESEN",
-      author_email="ozcanesen@gmail.com",
-      long_description="Evernote client for Linux desktops",
-      keywords='evernote clipper screenshot enlinuxclipper',
-      url='https://github.com/YakindanEgitim/EN-LinuxClipper',
-      license='GPLv3',
-      scripts=["bin/en-linuxclipper"],
-      packages = ['evernote',
-                  'enlinuxclipper',
-                  'thrift',
-                  'evernote.edam',
-                  'evernote.api',
-                  'thrift.transport',
-                  'thrift.server',
-                  'thrift.protocol',
-                  'evernote.edam.limits',
-                  'evernote.edam.notestore',
-                  'evernote.edam.userstore',
-                  'evernote.edam.type',
-                  'evernote.edam.error'],
-      data_files=[('share/icons/hicolor/scalable/apps/', glob.glob("data/icons/*svg")),
-                  ('share/en-linuxclipper/', glob.glob("data/share/en-linuxclipper/*"))
-                  ('share/applications/', glob.glob("data/share/applications/*desktop"))]
-      )
+try:
+    import DistUtilsExtra.auto
+    from DistUtilsExtra.command import *
+except ImportError:
+    sys.exit(1)
 
+DistUtilsExtra.auto.setup(name="enlinuxclipper",
+          version="0.1.0",
+          description="Evernote client for Linux desktops",
+          author="Ozcan ESEN",
+          author_email="ozcanesen@gmail.com",
+          long_description="Evernote client for Linux desktops",
+          keywords='evernote clipper screenshot enlinuxclipper',
+          url='https://github.com/YakindanEgitim/EN-LinuxClipper',
+          license='GPLv3',
+          scripts=["bin/en-linuxclipper"],
+          packages = ['evernote',
+                      'enlinuxclipper',
+                      'thrift',
+                      'evernote.edam',
+                      'evernote.api',
+                      'thrift.transport',
+                      'thrift.server',
+                      'thrift.protocol',
+                      'evernote.edam.limits',
+                      'evernote.edam.notestore',
+                      'evernote.edam.userstore',
+                      'evernote.edam.type',
+                      'evernote.edam.error'],
+          data_files=[('share/icons/hicolor/scalable/apps/', glob.glob("data/icons/*svg")),
+                      ('share/en-linuxclipper/', glob.glob("data/share/en-linuxclipper/*")),
+                      ('share/applications/', glob.glob("data/share/applications/*desktop"))],
+          cmdclass = { "build" : build_extra.build_extra,
+                   "build_i18n" :  build_i18n.build_i18n,
+                   "build_help" : build_help.build_help,
+                   "build_icons" : build_icons.build_icons}
+          )
