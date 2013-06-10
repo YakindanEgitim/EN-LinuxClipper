@@ -222,7 +222,7 @@ class ENAPI:
         """
 
         if not ENAPI.is_logged():
-            return
+            return []
 
         return [[notebook.name, notebook.guid] for notebook in ENAPI.note_store.listNotebooks()]
 
