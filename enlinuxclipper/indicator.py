@@ -34,6 +34,7 @@ from clipper import Clipper
 from auth import AuthWin
 from enapi import ENAPI
 from common import HOST
+from preferences import Preferences
 
 
 class Indicator:
@@ -117,6 +118,7 @@ class Indicator:
         menu.append(Gtk.SeparatorMenuItem.new())
 
         preferences = Gtk.MenuItem(_("Preferences"))
+        preferences.connect('activate', self.open_preferences)
         menu.append(preferences)
 
         quit = Gtk.MenuItem(_("Quit"))
@@ -133,6 +135,11 @@ class Indicator:
     def open_evernote_homepage(self, event):
         """ Open default web browser and navigate Evernote """
         Gtk.show_uri(None, 'https://%s' % HOST, 0)
+
+
+    def open_preferences(self, event):
+        """ Open preferences window """
+        Preferences()
 
     def auth_user_callback(self, event):
         """ Show authentication window. """
