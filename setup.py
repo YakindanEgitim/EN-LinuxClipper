@@ -3,14 +3,14 @@
 """
 Copyright (C) 2013 - Özcan ESEN <ozcanesen@gmail.com>
 
-This file is part of EN-LinuxClipper.
+This file is part of NoteClipper.
 
-EN-LinuxClipper is free software: you can redistribute it and/or modify
+NoteClipper is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-EN-LinuxClipper is distributed in the hope that it will be useful,
+NoteClipper is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -33,7 +33,7 @@ except ImportError:
 def update_config(values = {}):
     oldvalues = {}
     try:
-        fin = file('enlinuxclipper/common.py', 'r')
+        fin = file('noteclipper/common.py', 'r')
         fout = file(fin.name + '.new', 'w')
 
         for line in fin:
@@ -48,7 +48,7 @@ def update_config(values = {}):
         fin.close()
         os.rename(fout.name, fin.name)
     except (OSError, IOError), e:
-        print ("ERROR: Can't find enlinuxclipper/common.py")
+        print ("ERROR: Can't find noteclipper/common.py")
         sys.exit(1)
     return oldvalues
 
@@ -59,18 +59,18 @@ class install_extra(DistUtilsExtra.auto.install_auto):
         DistUtilsExtra.auto.install_auto.run(self)
         update_config(previous_values)
 
-DistUtilsExtra.auto.setup(name="enlinuxclipper",
+DistUtilsExtra.auto.setup(name="noteclipper",
           version="0.1.0",
-          description="Evernote client for Linux desktops",
+          description="NoteClipper",
           author="Ozcan ESEN",
           author_email="ozcanesen@gmail.com",
-          long_description="Evernote client for Linux desktops",
-          keywords='evernote clipper screenshot enlinuxclipper',
+          long_description="Clipping application",
+          keywords='evernote clipper note noteclipper',
           url='https://github.com/YakindanEgitim/EN-LinuxClipper',
           license='GPLv3',
-          scripts=["bin/en-linuxclipper"],
+          scripts=["bin/noteclipper"],
           packages = ['evernote',
-                      'enlinuxclipper',
+                      'noteclipper',
                       'thrift',
                       'evernote.edam',
                       'evernote.api',
@@ -83,7 +83,7 @@ DistUtilsExtra.auto.setup(name="enlinuxclipper",
                       'evernote.edam.type',
                       'evernote.edam.error'],
           data_files=[('share/icons/hicolor/scalable/apps/', glob.glob("data/icons/*svg")),
-                      ('share/en-linuxclipper/', glob.glob("data/share/en-linuxclipper/*")),
+                      ('share/noteclipper/', glob.glob("data/share/noteclipper/*")),
                       ('share/applications/', glob.glob("data/share/applications/*desktop"))],
           cmdclass = {"install": install_extra,
                       "build" : build_extra.build_extra,

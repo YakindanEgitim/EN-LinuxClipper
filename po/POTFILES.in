@@ -1,13 +1,13 @@
-[type: python] bin/en-linuxclipper
-[type: gettext/glade] data/share/en-linuxclipper/preferences.ui
-enlinuxclipper/__init__.py
-enlinuxclipper/i18n.py
-enlinuxclipper/enapi.py
-enlinuxclipper/pycanberra.py
-enlinuxclipper/auth.py
-enlinuxclipper/core.py
-enlinuxclipper/indicator.py
-enlinuxclipper/common.py
-enlinuxclipper/clipper.py
-enlinuxclipper/preferences.py
-enlinuxclipper/config.py
+[type: python] bin/noteclipper
+[type: gettext/glade] data/share/noteclipper/preferences.ui
+noteclipper/__init__.py
+noteclipper/i18n.py
+noteclipper/enapi.py
+noteclipper/pycanberra.py
+noteclipper/auth.py
+noteclipper/core.py
+noteclipper/indicator.py
+noteclipper/common.py
+noteclipper/clipper.py
+noteclipper/preferences.py
+noteclipper/config.py

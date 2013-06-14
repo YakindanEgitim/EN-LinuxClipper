@@ -4,7 +4,7 @@
 * Check-out vagrant folder in devel branch.
 * Checkout used submodules for puppet
 
-$ cd EN-LinuxClipper
+$ cd NoteClipper
 $ git submodule init
 $ git submodule update
 
@@ -20,5 +20,5 @@ $ cp Vagrantfile-fedora-18-i386 Vagrantfile
 
 $ vagrant up
 
-* A virtualbox machine with GUI will be started and vagrant user will be auto logged in. Start a terminal and run en-clipper.
+* A virtualbox machine with GUI will be started and vagrant user will be auto logged in. Start a terminal and run NoteClipper.
 

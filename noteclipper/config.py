@@ -2,14 +2,14 @@
 """
 Copyright (C) 2013 - Özcan ESEN <ozcanesen@gmail.com>
 
-This file is part of EN-LinuxClipper.
+This file is part of NoteClipper.
 
-EN-LinuxClipper is free software: you can redistribute it and/or modify
+NoteClipper is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-EN-LinuxClipper is distributed in the hope that it will be useful,
+NoteClipper is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -37,7 +37,7 @@ class ConfigManager():
                                            'notebookguid': ''})
 
     # config path
-    cfg_dir = os.environ['HOME'] + '/.config/en-linuxclipper/'
+    cfg_dir = os.environ['HOME'] + '/.config/noteclipper/'
     cfg_file = 'main.cfg'
     cfg_full_path = cfg_dir + cfg_file
 

@@ -2,14 +2,14 @@
 """
 Copyright (C) 2013 - Özcan ESEN <ozcanesen@gmail.com>
 
-This file is part of EN-LinuxClipper.
+This file is part of NoteClipper.
 
-EN-LinuxClipper is free software: you can redistribute it and/or modify
+NoteClipper is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-EN-LinuxClipper is distributed in the hope that it will be useful,
+NoteClipper is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -37,8 +37,8 @@ class Preferences():
 
     def init_ui(self):
         builder = Gtk.Builder()
-        builder.set_translation_domain('enlinuxclipper')
-        builder.add_from_file(DIR_PREFIX + '/share/en-linuxclipper/preferences.ui')
+        builder.set_translation_domain('noteclipper')
+        builder.add_from_file(DIR_PREFIX + '/share/noteclipper/preferences.ui')
 
         self.window = builder.get_object('window')
         self.window.set_title(_("Preferences"))
@@ -81,7 +81,7 @@ class Preferences():
 
         # run on startup
         self.chk_startup = builder.get_object('chk_startup')
-        self.chk_startup.set_active(os.path.exists(os.environ['HOME'] + '/.config/autostart/EN-LinuxClipper.desktop'))
+        self.chk_startup.set_active(os.path.exists(os.environ['HOME'] + '/.config/autostart/NoteClipper.desktop'))
 
         # other checkboxes
         self.chk_play_sound = builder.get_object('chk_play_sound')
@@ -110,8 +110,8 @@ class Preferences():
             ConfigManager.set_conf('notebookguid', '')
 
         # startup
-        desktop_file = DIR_PREFIX + '/share/applications/EN-LinuxClipper.desktop'
-        desktop_file_autostart = os.environ['HOME'] + '/.config/autostart/EN-LinuxClipper.desktop'
+        desktop_file = DIR_PREFIX + '/share/applications/NoteClipper.desktop'
+        desktop_file_autostart = os.environ['HOME'] + '/.config/autostart/NoteClipper.desktop'
 
         if (self.chk_startup.get_active() and not os.path.exists(desktop_file_autostart)):
             os.system('cp ' + desktop_file + ' ' + desktop_file_autostart)
@@ -120,6 +120,8 @@ class Preferences():
             os.system('rm -f ' + desktop_file_autostart)
 
         ConfigManager.save_config()
+
+        self.window.hide()
 
     def on_cancel_clicked(self, widget):
         self.window.hide()

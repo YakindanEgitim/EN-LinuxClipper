@@ -1,10 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=EN-LinuxClipper
+Name=NoteClipper
 Version=0.1.0
-Comment=Evernote Client
+Comment=Clipping application
 Terminal=false
-Icon=enlinuxclipper.svg
+Icon=noteclipper.svg
 Type=Application
-Exec=en-linuxclipper
+Exec=noteclipper
 Categories=GNOME;Utility;

@@ -2,14 +2,14 @@
 """
 Copyright (C) 2013 - Özcan ESEN <ozcanesen@gmail.com>
 
-This file is part of EN-LinuxClipper.
+This file is part of NoteClipper.
 
-EN-LinuxClipper is free software: you can redistribute it and/or modify
+NoteClipper is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-EN-LinuxClipper is distributed in the hope that it will be useful,
+NoteClipper is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -77,7 +77,7 @@ class AuthWin(Gtk.Window):
         url = action.get_uri()
 
         # check if new url containig callback url
-        if "en-linuxclipper" in url:
+        if "noteclipper" in url:
             self.hide()
 
             # parse verifier string from url
@@ -107,9 +107,9 @@ class AuthWin(Gtk.Window):
         consumer = oauth.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
         client = oauth.Client(consumer)
 
-        # set http://en-linuxclipper/ as dummy callback url
+        # set http://noteclipper/ as dummy callback url
         # we will catch this url with webkit events.
-        resp, content = client.request(('https://%s/oauth?oauth_callback=' % HOST) + urllib.quote('http://en-linuxclipper/'), 'GET')
+        resp, content = client.request(('https://%s/oauth?oauth_callback=' % HOST) + urllib.quote('http://noteclipper/'), 'GET')
 
         data = dict(urlparse.parse_qsl(content))
 
